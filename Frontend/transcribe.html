@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Transcript - Interview Rejection Analysis System (IRAS)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link href="css/style.css" rel="stylesheet" />
+  <link href="login/login.css" rel="stylesheet" />
+</head>
+<body>
+  <nav class="glass-navbar d-flex justify-content-between align-items-center">
+    <div class="nav-left d-flex gap-4 align-items-center">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="learn-more.html" class="nav-link">Learn more</a>
+    </div>
+    <div class="nav-right d-flex align-items-center" id="authContainer">
+    </div>
+  </nav>
+  <section class="upload-section py-5 hero-section" style="min-height: 80vh; padding-top: 8rem !important;">
+    <div class="hero-grid-overlay"></div>
+    <div class="container position-relative">
+      <div class="row justify-content-center text-center mb-4">
+        <div class="col-lg-8">
+          <h1 class="hero-title"><strong>Audio <span class="text-accent">Transcription</span></strong></h1>
+          <p class="hero-desc mt-3">Upload your interview audio to get a full, timestamped transcription of the conversation.</p>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+          <div class="upload-card">
+            <div class="upload-card-header text-center">
+              <h2 class="upload-card-title"><i class="bi bi-file-earmark-music me-2"></i>Upload for Transcription</h2>
+            </div>
+            <div class="drop-zone mt-4" id="transcribeDropZone">
+              <div class="drop-zone-inner" id="dropInner">
+                <i class="bi bi-mic drop-icon"></i>
+                <p class="drop-label">Drag & drop your file here</p>
+                <p class="drop-sub">or</p>
+                <label for="transcribeFileInput" class="btn btn-outline-accent">Browse File</label>
+                <input type="file" id="transcribeFileInput" accept="audio/*,video/*" class="d-none" />
+              </div>
+              <div class="selected-file-info d-none" id="selectedFileInfo">
+                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                <span id="selectedFileName">No file selected</span>
+                <button type="button" class="btn btn-sm btn-link text-danger ms-2" id="clearFileBtn">
+                  <i class="bi bi-x-lg"></i>
+                </button>
+              </div>
+            </div>
+            <div class="d-none mt-3" id="transcribeStats">
+              <div class="row g-2 text-center">
+                <div class="col-6">
+                  <div class="sub-score-card">
+                    <div class="sub-score-label">Duration</div>
+                    <div class="sub-score-value" id="statDuration">—</div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="sub-score-card">
+                    <div class="sub-score-label">Word Count</div>
+                    <div class="sub-score-value" id="statWords">—</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="alert iras-alert-error mt-3 d-none" id="transcribeError" role="alert">
+              <i class="bi bi-exclamation-triangle-fill me-2"></i>
+              <span id="transcribeErrorText">Something went wrong.</span>
+            </div>
+            <div class="mt-4 d-none" id="transcriptionResult">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label class="form-label iras-label mb-0">Transcription Output</label>
+                <button class="btn btn-sm btn-outline-accent" id="copyBtn">
+                  <i class="bi bi-clipboard me-1"></i>Copy
+                </button>
+              </div>
+              <textarea class="form-control" id="transcriptTextarea"
+                style="background: var(--bg-surface); color: var(--text-primary); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 0.88rem; line-height: 1.7;"
+                rows="12" readonly></textarea>
+            </div>
+            <div class="mt-4 text-center">
+              <button class="btn iras-btn-white px-5" id="startTranscribeBtn">
+                <span class="btn-text"><i class="bi bi-magic me-2"></i>Start Transcribing</span>
+                <span class="btn-loading d-none">
+                  <span class="spinner-border spinner-border-sm me-2"></span>Processing...
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer class="iras-footer py-4">
+    <div class="container text-center">
+      <span class="footer-text">Team TechBolt...</span>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="login/login.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/snake-grid.js"></script>
+  <script>
+    "use strict";
+
+    const API_BASE = window.location.protocol === "file:"
+      ? "http://127.0.0.1:8000/api"
+      : `${window.location.origin}/api`;
+
+    let selectedFile = null;
+
+    const fileInput      = document.getElementById("transcribeFileInput");
+    const dropZone       = document.getElementById("transcribeDropZone");
+    const dropInner      = document.getElementById("dropInner");
+    const fileInfo       = document.getElementById("selectedFileInfo");
+    const fileNameEl     = document.getElementById("selectedFileName");
+    const clearBtn       = document.getElementById("clearFileBtn");
+    const transcribeBtn  = document.getElementById("startTranscribeBtn");
+    const resultArea     = document.getElementById("transcriptionResult");
+    const textarea       = document.getElementById("transcriptTextarea");
+    const errorBox       = document.getElementById("transcribeError");
+    const errorText      = document.getElementById("transcribeErrorText");
+    const copyBtn        = document.getElementById("copyBtn");
+    const statsBox       = document.getElementById("transcribeStats");
+    const statDuration   = document.getElementById("statDuration");
+    const statWords      = document.getElementById("statWords");
+
+    fileInput.addEventListener("change", (e) => {
+      if (e.target.files[0]) setFile(e.target.files[0]);
+    });
+    dropZone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      dropZone.classList.add("drag-over");
+    });
+    dropZone.addEventListener("dragleave", () => dropZone.classList.remove("drag-over"));
+    dropZone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropZone.classList.remove("drag-over");
+      if (e.dataTransfer.files[0]) setFile(e.dataTransfer.files[0]);
+    });
+    clearBtn.addEventListener("click", () => {
+      selectedFile = null;
+      fileInput.value = "";
+      dropInner.classList.remove("d-none");
+      fileInfo.classList.add("d-none");
+      resultArea.classList.add("d-none");
+      statsBox.classList.add("d-none");
+      hideError();
+    });
+    copyBtn.addEventListener("click", () => {
+      navigator.clipboard.writeText(textarea.value).then(() => {
+        copyBtn.innerHTML = '<i class="bi bi-check2 me-1"></i>Copied!';
+        setTimeout(() => {
+          copyBtn.innerHTML = '<i class="bi bi-clipboard me-1"></i>Copy';
+        }, 2000);
+      });
+    });
+    function setFile(file) {
+      selectedFile = file;
+      fileNameEl.textContent = file.name;
+      dropInner.classList.add("d-none");
+      fileInfo.classList.remove("d-none");
+      hideError();
+    }
+    function setBusy(busy) {
+      transcribeBtn.disabled = busy;
+      transcribeBtn.querySelector(".btn-text").classList.toggle("d-none", busy);
+      transcribeBtn.querySelector(".btn-loading").classList.toggle("d-none", !busy);
+    }
+    function showError(msg) {
+      errorText.textContent = msg;
+      errorBox.classList.remove("d-none");
+    }
+    function hideError() {
+      errorBox.classList.add("d-none");
+    }
+    function formatDuration(sec) {
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${m}m ${s}s`;
+    }
+    transcribeBtn.addEventListener("click", async () => {
+      hideError();
+
+      if (!selectedFile) {
+        showError("Please select an audio or video file first.");
+        return;
+      }
+
+      setBusy(true);
+      resultArea.classList.add("d-none");
+      statsBox.classList.add("d-none");
+
+      try {
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+
+        const response = await fetch(`${API_BASE}/transcribe`, {
+          method: "POST",
+          body: formData
+        });
+
+        if (!response.ok) {
+          const err = await response.text();
+          throw new Error(`Server error (${response.status}): ${err}`);
+        }
+
+        const data = await response.json();
+
+        textarea.value = data.transcript || "No transcript generated.";
+        resultArea.classList.remove("d-none");
+        statDuration.textContent = formatDuration(data.duration_sec || 0);
+        statWords.textContent = data.word_count || 0;
+        statsBox.classList.remove("d-none");
+
+      } catch (err) {
+        showError(err.message || "Transcription failed. Please try again.");
+      } finally {
+        setBusy(false);
+      }
+    });
+  </script>
+</body>
+</html>

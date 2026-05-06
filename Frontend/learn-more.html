@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About - Interview Rejection Analysis System (IRAS)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link href="css/style.css" rel="stylesheet" />
+  <link href="login/login.css" rel="stylesheet" />
+</head>
+
+<body class="about-page">
+
+  <nav class="glass-navbar d-flex justify-content-between align-items-center">
+    <div class="nav-left d-flex gap-4 align-items-center">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="learn-more.html" class="nav-link active">Learn more</a>
+    </div>
+    <div class="nav-right d-flex align-items-center" id="authContainer">
+    </div>
+  </nav>
+
+  <section class="hero-section pb-2">
+    <div class="hero-grid-overlay"></div>
+    <div class="container position-relative">
+      <div class="row justify-content-center text-center">
+        <div class="col-lg-8">
+          <h1 class="hero-title"><strong>The Science of <span class="text-accent">Subtext</span></strong></h1>
+          <p class="hero-desc mx-auto mt-3 mb-5">Hiring decisions aren't just based on what you say, but how you say it. Learn how our proprietary models decode the hidden metrics behind interview success.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features-timeline py-5">
+    <div class="container">
+      <div class="timeline">
+        <div class="timeline-line"></div>
+        <div class="timeline-3d-obj" id="scrollObj">
+          <div class="gyro">
+            <div class="ring ring1"></div>
+            <div class="ring ring2"></div>
+            <div class="ring ring3"></div>
+          </div>
+        </div>
+        <div class="timeline-item left">
+          <div class="timeline-content">
+            <div class="d-flex align-items-center mb-3">
+              <div class="d-inline-flex justify-content-center align-items-center rounded-circle me-3"
+                style="width:50px; height:50px; background: rgba(0, 212, 170, 0.15); color: var(--accent); font-size: 1.25rem;">
+                <i class="bi bi-soundwave"></i>
+              </div>
+              <h5 class="fw-bold mb-0 text-white">Acoustic Resonance Tracking</h5>
+            </div>
+            <p class="text-muted small mb-0">Words only account for 7% of human communication. We map your vocal pitch, micro-fluctuations, and pacing against successful candidates in your specific target role.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item right">
+          <div class="timeline-content">
+            <div class="d-flex align-items-center mb-3">
+              <div class="d-inline-flex justify-content-center align-items-center rounded-circle me-3"
+                style="width:50px; height:50px; background: rgba(227, 179, 65, 0.15); color: var(--warning); font-size: 1.25rem;">
+                <i class="bi bi-clock-history"></i>
+              </div>
+              <h5 class="fw-bold mb-0 text-white">Hesitation & Filler Decay</h5>
+            </div>
+            <p class="text-muted small mb-0">Long pauses and filler words ("um," "like," "you know") actively decay your perceived confidence. We isolate the exact timestamps where your cognitive load peaked.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item left">
+          <div class="timeline-content">
+            <div class="d-flex align-items-center mb-3">
+              <div class="d-inline-flex justify-content-center align-items-center rounded-circle me-3"
+                style="width:50px; height:50px; background: rgba(243, 85, 136, 0.15); color: #f35588; font-size: 1.25rem;">
+                <i class="bi bi-briefcase"></i>
+              </div>
+              <h5 class="fw-bold mb-0 text-white">Role-Contextual AI</h5>
+            </div>
+            <p class="text-muted small mb-0">A software engineer in a technical screen is judged differently than a sales director pitching a product. Our algorithms dynamically shift scoring weights to match the role.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item right">
+          <div class="timeline-content">
+            <div class="d-flex align-items-center mb-3">
+              <div class="d-inline-flex justify-content-center align-items-center rounded-circle me-3"
+                style="width:50px; height:50px; background: rgba(100, 149, 237, 0.15); color: #6495ed; font-size: 1.25rem;">
+                <i class="bi bi-graph-up-arrow"></i>
+              </div>
+              <h5 class="fw-bold mb-0 text-white">Actionable Correction Paths</h5>
+            </div>
+            <p class="text-muted small mb-0">Identifying the problem is only half the battle. We generate personalized, actionable exercises to recalibrate your speaking patterns before your next interview.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5 mb-5 mt-2">
+    <div class="container">
+      <div class="upload-card text-center p-5">
+        <div class="mb-4 d-flex justify-content-center">
+          <div class="d-inline-flex border border-secondary border-opacity-50 justify-content-center align-items-center rounded-circle" style="width:70px; height:70px; background: var(--bg-base); color: var(--text-primary); font-size: 1.75rem;">
+            <i class="bi bi-shield-lock"></i>
+          </div>
+        </div>
+        <h3 class="fw-bold mb-3 text-white" style="font-family: var(--font-display);">Zero-Trace Privacy Architecture</h3>
+        <p class="text-muted mx-auto mb-4" style="max-width: 600px;">
+          Your voice and identity are yours. All audio files are processed securely and <strong>never stored</strong>. The moment your analysis is generated, the raw source files are permanently purged from our memory banks.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="iras-footer py-4">
+    <div class="container text-center">
+      <span class="footer-text">Team TechBolt...</span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="login/login.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/snake-grid.js"></script>
+  <script src="js/timeline-scroll.js"></script>
+</body>
+</html>

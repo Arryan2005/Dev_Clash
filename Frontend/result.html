@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IRAS — Analysis Results</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link href="css/style.css" rel="stylesheet" />
+  <link href="login/login.css" rel="stylesheet" />
+</head>
+
+<body class="result-page">
+
+  <nav class="glass-navbar d-flex justify-content-between align-items-center">
+    <div class="nav-left d-flex gap-4 align-items-center">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="learn-more.html" class="nav-link">Learn more</a>
+    </div>
+    <div class="nav-right d-flex align-items-center" id="authContainer">
+    </div>
+  </nav>
+
+  <main class="result-main py-5">
+    <div class="container" id="resultContainer">
+
+      <div id="resultError" class="d-none">
+        <div class="row justify-content-center">
+          <div class="col-lg-6 text-center py-5">
+            <div class="error-icon mb-3"><i class="bi bi-file-earmark-x"></i></div>
+            <h3 class="text-white mb-2">No Analysis Data Found</h3>
+            <p class="text-muted mb-4">We couldn't find any analysis results. Please go back and upload an interview
+              file.</p>
+            <a href="index.html" class="btn iras-btn-primary"><i class="bi bi-arrow-left me-2"></i>Back to Upload</a>
+          </div>
+        </div>
+      </div>
+
+      <div id="resultContent">
+        <div class="row g-4 mb-4">
+          <div class="col-lg-4">
+            <div class="score-hero-card h-100">
+              <div class="score-circle-wrap">
+                <svg class="score-ring" viewBox="0 0 120 120">
+                  <circle class="ring-bg" cx="60" cy="60" r="50" />
+                  <circle class="ring-fill" id="scoreRing" cx="60" cy="60" r="50" stroke-dasharray="314"
+                    stroke-dashoffset="314" />
+                </svg>
+                <div class="score-inner">
+                  <span class="score-number" id="overallScore">—</span>
+                  <span class="score-denom">/100</span>
+                </div>
+              </div>
+              <div class="text-center mt-3">
+                <span class="score-label-badge" id="overallLabel">Calculating...</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-8">
+            <div class="summary-card h-100">
+              <h5 class="card-section-title"><i class="bi bi-clipboard-data me-2"></i>Interview Summary</h5>
+              <p class="summary-text" id="summaryText">Loading summary...</p>
+              <div class="row g-3 mt-2">
+                <div class="col-6 col-sm-3">
+                  <div class="sub-score-card">
+                    <div class="sub-score-label">Clarity</div>
+                    <div class="sub-score-value" id="clarityScore">—</div>
+                  </div>
+                </div>
+                <div class="col-6 col-sm-3">
+                  <div class="sub-score-card">
+                    <div class="sub-score-label">Relevance</div>
+                    <div class="sub-score-value" id="relevanceScore">—</div>
+                  </div>
+                </div>
+                <div class="col-6 col-sm-3">
+                  <div class="sub-score-card">
+                    <div class="sub-score-label">Specificity</div>
+                    <div class="sub-score-value" id="specificityScore">—</div>
+                  </div>
+                </div>
+                <div class="col-6 col-sm-3">
+                  <div class="sub-score-card">
+                    <div class="sub-score-label">Confidence</div>
+                    <div class="sub-score-value" id="confidenceScore">—</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row g-4 mb-4">
+          <div class="col-6 col-md-3">
+            <div class="metric-card">
+              <div class="metric-icon"><i class="bi bi-chat-dots"></i></div>
+              <div class="metric-value" id="fillerCount">—</div>
+              <div class="metric-label">Filler Words</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="metric-card">
+              <div class="metric-icon"><i class="bi bi-speedometer2"></i></div>
+              <div class="metric-value" id="paceValue">—</div>
+              <div class="metric-label">Speaking Pace (WPM)</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="metric-card">
+              <div class="metric-icon"><i class="bi bi-pause-circle"></i></div>
+              <div class="metric-value" id="pauseCount">—</div>
+              <div class="metric-label">Long Pauses</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="metric-card">
+              <div class="metric-icon"><i class="bi bi-clock"></i></div>
+              <div class="metric-value" id="durationValue">—</div>
+              <div class="metric-label">Duration</div>
+            </div>
+          </div>
+        </div>
+        <div class="row g-4 mb-4">
+          <div class="col-lg-7">
+            <div class="chart-card">
+              <h5 class="card-section-title"><i class="bi bi-bar-chart me-2"></i>Score Breakdown</h5>
+              <div class="chart-wrap">
+                <canvas id="scoreChart"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="chart-card">
+              <h5 class="card-section-title"><i class="bi bi-chat-square-text me-2"></i>Top Filler Words</h5>
+              <div class="chart-wrap">
+                <canvas id="fillerChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row g-4 mb-4">
+          <div class="col-lg-5">
+            <div class="insight-card h-100">
+              <h5 class="card-section-title danger-title"><i class="bi bi-x-octagon me-2"></i>Top Rejection Reasons</h5>
+              <div id="rejectionReasons">
+                <div class="placeholder-text">Loading...</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="insight-card h-100">
+              <h5 class="card-section-title warning-title"><i class="bi bi-exclamation-triangle me-2"></i>Weak Moments
+              </h5>
+              <div id="weakMoments">
+                <div class="placeholder-text">Loading...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row g-4 mb-5">
+          <div class="col-12">
+            <div class="plan-card">
+              <h5 class="card-section-title success-title"><i class="bi bi-rocket-takeoff me-2"></i>Your Improvement
+                Plan</h5>
+              <div id="improvementPlan">
+                <div class="placeholder-text">Loading...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="text-center pb-4">
+          <a href="index.html" class="btn iras-btn-primary btn-lg">
+            <i class="bi bi-arrow-repeat me-2"></i>Analyze Another Interview
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="iras-footer py-4">
+    <div class="container text-center">
+      <span class="footer-text">Built for hackathons · IRAS &copy; 2025 · Powered by AI</span>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+  <script src="login/login.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/result.js"></script>
+</body>
+</html>

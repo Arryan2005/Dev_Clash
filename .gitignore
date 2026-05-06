@@ -1,0 +1,75 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# Python build files
+build/
+dist/
+*.egg-info/
+
+# =========================
+# Environment Variables
+# =========================
+.env
+
+# =========================
+# FastAPI / Backend
+# =========================
+*.log
+logs/
+
+# Uploaded files
+uploads/
+temp_audio/
+
+# SQLite database
+*.db
+*.sqlite3
+
+# =========================
+# VS Code
+# =========================
+.vscode/
+
+# =========================
+# OS Files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Testing / Cache
+# =========================
+.pytest_cache/
+.coverage
+htmlcov/
+
+# =========================
+# Type checking
+# =========================
+.mypy_cache/
+.pyre/
+
+# =========================
+# Jupyter Notebook
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# Node (if added later)
+# =========================
+node_modules/
+
+# =========================
+# Temporary files
+# =========================
+*.tmp
+*.temp
