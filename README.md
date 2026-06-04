@@ -8,7 +8,7 @@
 
 ```bash
 git clone <your-github-repo-link>
-cd TechBolt
+cd Dev_Clash
 ```
 
 ---
