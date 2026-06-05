@@ -33,6 +33,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     populateRejectionReasons(data);
     populateWeakMoments(data);
     populateImprovementPlan(data);
+    populateTranscript(data);
     animateScoreRing(data?.scores?.overall ?? 0);
     if (typeof renderScoreChart === "function") renderScoreChart(data);
     if (typeof renderFillerChart === "function") renderFillerChart(data);
@@ -270,4 +271,39 @@ function escapeHTML(str) {
   const div = document.createElement("div");
   div.appendChild(document.createTextNode(str));
   return div.innerHTML;
+}
+function populateTranscript(data) {
+  const box = document.getElementById("transcriptBody");
+  const toggleBtn = document.getElementById("toggleTranscriptBtn");
+  const section = document.getElementById("transcriptSection");
+  const copyBtn = document.getElementById("copyTranscriptBtn");
+
+  if (!box || !toggleBtn || !section) return;
+
+  const text = data?.transcript;
+
+  if (!text || text.trim() === "") {
+    box.textContent = "No transcript available.";
+  } else {
+    box.textContent = text.trim();
+  }
+
+  toggleBtn.addEventListener("click", () => {
+    const isHidden = section.classList.contains("d-none");
+    section.classList.toggle("d-none", !isHidden);
+    toggleBtn.innerHTML = isHidden
+      ? '<i class="bi bi-chevron-up me-1"></i>Hide'
+      : '<i class="bi bi-chevron-down me-1"></i>Show';
+  });
+
+  if (copyBtn) {
+    copyBtn.addEventListener("click", () => {
+      navigator.clipboard.writeText(box.textContent).then(() => {
+        copyBtn.innerHTML = '<i class="bi bi-check2 me-1"></i>Copied!';
+        setTimeout(() => {
+          copyBtn.innerHTML = '<i class="bi bi-clipboard me-1"></i>Copy Transcript';
+        }, 2000);
+      });
+    });
+  }
 }

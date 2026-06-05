@@ -292,6 +292,7 @@ def analyze_interview(input_path: str, role: str, job_id: str) -> Dict[str, Any]
     result = {
         "job_id": job_id,
         "status": "completed",
+        "transcript": text,
         "transcript_summary": {
             "duration_sec": duration_sec,
             "word_count": word_count

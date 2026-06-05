@@ -37,6 +37,7 @@ class Scores(BaseModel):
 class AnalysisResult(BaseModel):
     job_id: str
     status: str = "completed"
+    transcript: str = ""
     transcript_summary: TranscriptSummary
     speech_metrics: SpeechMetrics
     scores: Scores
